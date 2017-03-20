@@ -1,17 +1,16 @@
 # DA_P6
 Data Analysis Nanodegree Project 6  
-hoge hoge
 
-# H1 Summary  
+## Summary  
 Summary hoge  
 
-# H1 Design  
+## Design  
 Design hoge
 
-# H1 Feedback  
+## Feedback  
 Feedback hoge  
 
-# H1 Resources 
+## Resources 
 Resources hoge
 
 
