@@ -1,5 +1,6 @@
 # DA_P6
-Data Analysis Nanodegree Project 6
+Data Analysis Nanodegree Project 6  
+hoge hoge
 
 # H1 Summary  
 Summary hoge  
