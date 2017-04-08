@@ -2,7 +2,8 @@
 Data Analysis Nanodegree Project 6  
 
 ## Summary  
-Summary hoge  
+Summary hoge
+This data visualization shows monthly-averaged number of flight delay all over the world.
 
 ## Design  
 Design hoge

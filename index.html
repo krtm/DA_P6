@@ -16,37 +16,12 @@
     <script type="text/javascript">
       function draw(data) {
         
-        /* Average Delay per Year */
-        
-        arrv_delay_year =[];
-
-        for(var j=2003; j<=2016; j++) {
-          var arrv_array =[];
-          var warrv_array =[];
-          var arrv_delay = -1;
-          var weth_delay = -1;
-          var sum_ad = 0;
-          var sum_wd = 0;
-          var cnt = 0;
-          for(var i=0; i<data.length;i++) {
-            if(data[i].year==j) {
-              sum_ad = sum_ad + Number(data[i].arr_delay);
-              sum_wd = sum_wd + Number(data[i].weather_delay);
-              cnt += 1;
-            }
-          }
-          arrv_delay = sum_ad / cnt;
-          weth_delay = sum_wd / cnt;
-          warrv_array["year"] = String(j);
-          warrv_array["delay_type"] = String("weather");
-          warrv_array["arrival_delay"] = String(weth_delay);
-          arrv_delay_year.push(warrv_array);
-          arrv_array["year"] = String(j);
-          arrv_array["delay_type"] = String("other");
-          arrv_array["arrival_delay"] = String(arrv_delay - weth_delay);
-          arrv_delay_year.push(arrv_array);
-          debugger;
-        }        
+          ad_array =[];
+          ad_array = getAverageDelay("weather_delay");
+          ad_array = ad_array.concat(getAverageDelay("security_delay"));
+          ad_array = ad_array.concat(getAverageDelay("nas_delay"));
+          ad_array = ad_array.concat(getAverageDelay("late_aircraft_delay"));
+          ad_array = ad_array.concat(getAverageDelay("carrier_delay"));
 
       /*
         D3.js setup code
@@ -61,7 +36,7 @@
           
           d3.select('body')
             .append('h2')
-            .text("Flight delay");
+            .text("Monthly average flight delay");
 
           var svg = d3.select("body")
             .append("svg")
@@ -75,12 +50,13 @@
       */
 
           /*var myChart = new dimple.chart(svg, data);*/
-          var myChart = new dimple.chart(svg, arrv_delay_year);
+          /*var myChart = new dimple.chart(svg, arrv_delay_year);*/
+          var myChart = new dimple.chart(svg, ad_array);
           
           debugger;
           
           /*var x = myChart.addTimeAxis("x", "year");*/
-          var x = myChart.addCategoryAxis("x", "year");
+          var x = myChart.addCategoryAxis("x", "month");
           /*myChart.addMeasureAxis("y", "arr_delay");*/
           /*myChart.addMeasureAxis("y", "weather_delay");*/
           myChart.addMeasureAxis("y", "arrival_delay");
@@ -95,6 +71,49 @@
           /*myChart.addSeries(null, dimple.plot.line);
           myChart.addSeries(null, dimple.plot.scatter);*/
           myChart.draw();
+          
+  
+         /* Get Year-Average Delay */
+        function getAverageDelay(typeofdealy) {
+          arrv_delay_array =[];
+
+          for(var j=1; j<=12; j++) {
+            var arrv_array =[];
+            var arrv_delay = -1;
+            var sum_ad = 0;
+            var cnt = 0;
+            for(var i=0; i<data.length;i++) {
+              if(data[i].month==j) {
+                if(typeofdealy == "weather_delay") {
+                  sum_ad = sum_ad + Number(data[i].weather_delay);
+                  cnt += 1;
+                } else if(typeofdealy == "security_delay") {
+                  sum_ad = sum_ad + Number(data[i].security_delay);
+                  cnt += 1;
+                } else if(typeofdealy == "nas_delay") {
+                  sum_ad = sum_ad + Number(data[i].nas_delay);
+                  cnt += 1;
+                } else if(typeofdealy == "late_aircraft_delay") {
+                  sum_ad = sum_ad + Number(data[i].late_aircraft_delay);
+                  cnt += 1;
+                } else if(typeofdealy == "carrier_delay") {
+                  sum_ad = sum_ad + Number(data[i].carrier_delay);
+                  cnt += 1;
+                } else {
+                  break;
+                }
+              }
+            }
+            arrv_delay = sum_ad / cnt;
+            arrv_array["month"] = String(j);
+            arrv_array["delay_type"] = String(typeofdealy);
+            arrv_array["arrival_delay"] = String(arrv_delay);
+            arrv_delay_array.push(arrv_array);
+            /*debugger;*/
+          }
+          return arrv_delay_array;
+        }
+          
         };
       </script>
   </head>
