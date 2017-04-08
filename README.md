@@ -2,15 +2,20 @@
 Data Analysis Nanodegree Project 6  
 
 ## Summary  
-Summary hoge
-This data visualization shows monthly-averaged number of flight delay all over the world.
+This data visualization shows monthly-averaged number of flight delay all over the world.  
 You can find the tendency of month.
 
 ## Design  
-Design hoge
+To show monthly-averaged number of flight delay and get the tendency of month.  
+1. The vertical stacked bar graph indicating five type of delay <http://aspmhelp.faa.gov/index.php/Types_of_Delay> is designed to show monthly average number of flight delay for all.  
+2. 
 
 ## Feedback  
-Feedback hoge  
+1. A feedback of Design.1 is the following:  
+“The color is good but I don’t understand the meaning of type of delay.”  
+“It looks the flight delay happens a lot in summer and winter. In Autumn, it’s small number. ”  
+“The legend looks small.”  
+“Which airport does this graph consist of ?”  
 
 ## Resources 
 Resources hoge
