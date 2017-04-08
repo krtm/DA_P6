@@ -20,20 +20,30 @@
         
         arrv_delay_year =[];
 
-        for(var j=2003; j<2016; j++) {
+        for(var j=2003; j<=2016; j++) {
           var arrv_array =[];
+          var warrv_array =[];
           var arrv_delay = -1;
-          var sum = 0;
+          var weth_delay = -1;
+          var sum_ad = 0;
+          var sum_wd = 0;
           var cnt = 0;
           for(var i=0; i<data.length;i++) {
             if(data[i].year==j) {
-              sum = sum + Number(data[i].arr_delay);
+              sum_ad = sum_ad + Number(data[i].arr_delay);
+              sum_wd = sum_wd + Number(data[i].weather_delay);
               cnt += 1;
             }
           }
-          arrv_delay = sum / cnt;
+          arrv_delay = sum_ad / cnt;
+          weth_delay = sum_wd / cnt;
+          warrv_array["year"] = String(j);
+          warrv_array["delay_type"] = String("weather");
+          warrv_array["arrival_delay"] = String(weth_delay);
+          arrv_delay_year.push(warrv_array);
           arrv_array["year"] = String(j);
-          arrv_array["arr_delay"] = String(arrv_delay);
+          arrv_array["delay_type"] = String("other");
+          arrv_array["arrival_delay"] = String(arrv_delay - weth_delay);
           arrv_delay_year.push(arrv_array);
           debugger;
         }        
@@ -69,18 +79,21 @@
           
           debugger;
           
-          var x = myChart.addTimeAxis("x", "year");
-          /*var x = myChart.addCategoryAxis("x", "year"); */
-          myChart.addMeasureAxis("y", "arr_delay");
-          /*myChart.addMeasureAxis("y", "arr_diverted");*/
-          x.dataParseFormat = "%Y";
+          /*var x = myChart.addTimeAxis("x", "year");*/
+          var x = myChart.addCategoryAxis("x", "year");
+          /*myChart.addMeasureAxis("y", "arr_delay");*/
+          /*myChart.addMeasureAxis("y", "weather_delay");*/
+          myChart.addMeasureAxis("y", "arrival_delay");
+          /*x.dataParseFormat = "%Y";
           x.tickFormat = "%Y";
-          x.timeInterval = 1;
+          x.timeInterval = 1;*/
           
           debugger;
           
-          myChart.addSeries(null, dimple.plot.line);
-          myChart.addSeries(null, dimple.plot.scatter);
+          myChart.addSeries("delay_type", dimple.plot.bar);
+          myChart.addLegend(60, 10, 510, 20, "right");
+          /*myChart.addSeries(null, dimple.plot.line);
+          myChart.addSeries(null, dimple.plot.scatter);*/
           myChart.draw();
         };
       </script>
