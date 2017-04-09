@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
-  
+    <script type="text/javascript" src="./main1.js"></script>
     <style>
       circle.dimple-series-1 {
         fill: red;
@@ -17,11 +17,11 @@
       function draw(data) {
         
           ad_array =[];
-          ad_array = getAverageDelay("weather_delay");
-          ad_array = ad_array.concat(getAverageDelay("security_delay"));
-          ad_array = ad_array.concat(getAverageDelay("nas_delay"));
-          ad_array = ad_array.concat(getAverageDelay("late_aircraft_delay"));
-          ad_array = ad_array.concat(getAverageDelay("carrier_delay"));
+          ad_array = getAverageDelay(data, "weather_delay");
+          ad_array = ad_array.concat(getAverageDelay(data, "security_delay"));
+          ad_array = ad_array.concat(getAverageDelay(data, "nas_delay"));
+          ad_array = ad_array.concat(getAverageDelay(data, "late_aircraft_delay"));
+          ad_array = ad_array.concat(getAverageDelay(data, "carrier_delay"));
 
       /*
         D3.js setup code
@@ -71,48 +71,6 @@
           /*myChart.addSeries(null, dimple.plot.line);
           myChart.addSeries(null, dimple.plot.scatter);*/
           myChart.draw();
-          
-  
-         /* Get Year-Average Delay */
-        function getAverageDelay(typeofdealy) {
-          arrv_delay_array =[];
-
-          for(var j=1; j<=12; j++) {
-            var arrv_array =[];
-            var arrv_delay = -1;
-            var sum_ad = 0;
-            var cnt = 0;
-            for(var i=0; i<data.length;i++) {
-              if(data[i].month==j) {
-                if(typeofdealy == "weather_delay") {
-                  sum_ad = sum_ad + Number(data[i].weather_delay);
-                  cnt += 1;
-                } else if(typeofdealy == "security_delay") {
-                  sum_ad = sum_ad + Number(data[i].security_delay);
-                  cnt += 1;
-                } else if(typeofdealy == "nas_delay") {
-                  sum_ad = sum_ad + Number(data[i].nas_delay);
-                  cnt += 1;
-                } else if(typeofdealy == "late_aircraft_delay") {
-                  sum_ad = sum_ad + Number(data[i].late_aircraft_delay);
-                  cnt += 1;
-                } else if(typeofdealy == "carrier_delay") {
-                  sum_ad = sum_ad + Number(data[i].carrier_delay);
-                  cnt += 1;
-                } else {
-                  break;
-                }
-              }
-            }
-            arrv_delay = sum_ad / cnt;
-            arrv_array["month"] = String(j);
-            arrv_array["delay_type"] = String(typeofdealy);
-            arrv_array["arrival_delay"] = String(arrv_delay);
-            arrv_delay_array.push(arrv_array);
-            /*debugger;*/
-          }
-          return arrv_delay_array;
-        }
           
         };
       </script>
