@@ -1,8 +1,27 @@
- /* 
+/* 
+ global variables
+ */
+var init_label = "All Ariport";
+
+/*
+ Get All Monthly-Averaged Fligh Dely Data 
+ */
+function getAllDelay(data, airportname) {
+  var delay_array =[];
+  delay_array = getAverageDelay(data, "weather_delay", airportname);
+  delay_array = delay_array.concat(getAverageDelay(data, "security_delay", airportname));
+  delay_array = delay_array.concat(getAverageDelay(data, "nas_delay", airportname));
+  delay_array = delay_array.concat(getAverageDelay(data, "late_aircraft_delay", airportname));
+  delay_array = delay_array.concat(getAverageDelay(data, "carrier_delay", airportname));
+  
+  return delay_array;
+}
+
+/* 
  Get Monthly-Averaged Flight Delay Data
  */
 function getAverageDelay(data, typeofdealy, airportname) {
-  arrv_delay_array =[];
+  var arrv_delay_array =[];
 
   for(var j=1; j<=12; j++) {
     var arrv_array =[];
@@ -11,7 +30,7 @@ function getAverageDelay(data, typeofdealy, airportname) {
     var cnt = 0;
     for(var i=0; i<data.length;i++) {
       if(data[i].airport_name === airportname 
-      || airportname === "All Ariport") {
+      || airportname === init_label) {
         if(data[i].month==j) {
           if(typeofdealy == "weather_delay") {
             sum_ad = sum_ad + Number(data[i].weather_delay);
@@ -48,8 +67,8 @@ function getAverageDelay(data, typeofdealy, airportname) {
 Get airport list
 */
 function getAirportList(data) {
-  airport_list = [];
-  airportname_list = [];
+  var airport_list = [];
+  var airportname_list = [];
   for(var i=0; i<data.length;i++) {
     var existing_flg = 0;
     for(var j=0; j<airport_list.length; j++) {

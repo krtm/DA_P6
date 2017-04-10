@@ -16,23 +16,30 @@
       h3 {
         text-align: left;
       }
+      p {
+        font-size: 1.5em;
+      }
     </style>
+    
     <script type="text/javascript">
+      /*
+       global variables
+       */
+      var all_data = [];
+      var apsl_array = null;
+      var myChart = null;
+      
+      /* 
+       draw
+       */
       function draw(data) {
-        
-        var init_label = "All Ariport";
-        all_data = [];
         all_data = data;
 
-        /* Flight Dealy Data  */         
-          ad_array =[];
-          ad_array = getAverageDelay(all_data, "weather_delay", init_label);
-          ad_array = ad_array.concat(getAverageDelay(all_data, "security_delay", init_label));
-          ad_array = ad_array.concat(getAverageDelay(all_data, "nas_delay", init_label));
-          ad_array = ad_array.concat(getAverageDelay(all_data, "late_aircraft_delay", init_label));
-          ad_array = ad_array.concat(getAverageDelay(all_data, "carrier_delay", init_label));
+          /* Flight Dealy Data  */         
+          var ad_array =[];
+          ad_array = getAllDelay(all_data, init_label);
           
-        /* Airport Selection */
+          /* Airport Selection */
           apsl_array = new Array(init_label);
           apsl_array = apsl_array.concat(getAirportList(all_data));
           document.selbox.airport.options.length = 0;
@@ -42,10 +49,9 @@
           document.selbox.airport.selectedIndex=0;
           
 
-      /*
-        D3.js setup code
-      */
-
+          /*
+            D3.js setup code
+          */
           "use strict";
           var margin = 75,
               width = 1400 - margin,
@@ -58,37 +64,21 @@
             .text("Monthly Average Flight Delay");
 
           var svg = d3.select("body")
+            .append('p')
             .append("svg")
               .attr("width", width + margin)
               .attr("height", height + margin)
             .append('g')
                 .attr('class','chart');
 
-      /*
-        Dimple.js Chart construction code
-      */
-
-          /*var myChart = new dimple.chart(svg, data);*/
-          /*var myChart = new dimple.chart(svg, arrv_delay_year);*/
-          myChart = new dimple.chart(svg, ad_array); /* global */
-          
-          debugger;
-          
-          /*var x = myChart.addTimeAxis("x", "year");*/
+          /*
+            Dimple.js Chart construction code
+          */
+          myChart = new dimple.chart(svg, ad_array);
           var x = myChart.addCategoryAxis("x", "month");
-          /*myChart.addMeasureAxis("y", "arr_delay");*/
-          /*myChart.addMeasureAxis("y", "weather_delay");*/
           myChart.addMeasureAxis("y", "arrival_delay");
-          /*x.dataParseFormat = "%Y";
-          x.tickFormat = "%Y";
-          x.timeInterval = 1;*/
-          
-          debugger;
-          
           myChart.addSeries("delay_type", dimple.plot.bar);
-          myChart.addLegend(60, 10, 510, 20, "right");
-          /*myChart.addSeries(null, dimple.plot.line);
-          myChart.addSeries(null, dimple.plot.scatter);*/
+          myChart.addLegend(80, 10, 750, 20, "right");
           myChart.draw();
           
         };
@@ -98,7 +88,11 @@
   
   <body>
     <form name="selbox">
-      <h2>Airport in USA: <div align="center"><select name="airport" onchange="updateAirportData()"></select></div></h2>
+      <h2>Airport in USA: 
+        <div align="center">
+          <select name="airport" onchange="updateAirportData()"></select>
+        </div>
+      </h2>
     </form>
 
     <script type="text/javascript">
@@ -107,10 +101,9 @@
       Use D3 (not dimple.js) to load the CSV file
       and pass the contents of it to the draw function
     */
-    /*  d3.csv("data/501305392_122016_2248_airline_delay_causes.csv",
-          draw); some labels have " " as first word..... */
-      d3.csv("data/501305392_122016_2248_airline_delay_causes_2.csv",
-          draw);
+    /* d3.csv("data/501305392_122016_2248_airline_delay_causes.csv",
+        draw); some labels have " " as first word..... */
+    d3.csv("data/501305392_122016_2248_airline_delay_causes_2.csv", draw);
           
     /* 
     Update Selected Airport Data 
@@ -118,18 +111,10 @@
     function updateAirportData(){
       
       /* get airport name from selectbox */
-      var selected_airport = document.selbox.airport.selectedIndex
-      apsd_array = [];
-      debugger;
-      
-      apsd_array = getAverageDelay(all_data, "weather_delay", apsl_array[selected_airport]);
-      apsd_array = apsd_array.concat(getAverageDelay(all_data, "security_delay", apsl_array[selected_airport]));
-      apsd_array = apsd_array.concat(getAverageDelay(all_data, "nas_delay", apsl_array[selected_airport]));
-      apsd_array = apsd_array.concat(getAverageDelay(all_data, "late_aircraft_delay", apsl_array[selected_airport]));
-      apsd_array = apsd_array.concat(getAverageDelay(all_data, "carrier_delay", apsl_array[selected_airport]));
-      
+      var selected_airport = document.selbox.airport.selectedIndex;
+
       /* update data of Chart */
-      myChart.data = apsd_array;
+      myChart.data = getAllDelay(all_data, apsl_array[selected_airport]);
       myChart.draw();
 
     }
