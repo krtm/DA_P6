@@ -6,9 +6,13 @@ This data visualization shows monthly-averaged number of flight delay in US.
 The dataset is from 2003 to 2016. You can find the tendency of monthly flight delay.
 
 ## Design  
-To show monthly-averaged number of flight delay and get the tendency of month.  
+To show monthly-averaged number of flight delay and get the tendency of month, and then we can find that there are a lot of Flight Delay in summer season. And we can get that September has the most on-time flights from the historical performances.  
+  
 1. The vertical stacked bar graph indicating five type of delay (<http://aspmhelp.faa.gov/index.php/Types_of_Delay>) is designed to show monthly average number of flight delay for all.  
-2. To make a reader understand easily the monthly tendency of flight delay for the airport where he/she is interested in, 
+The horizontal bar chart improves visualization of the monthly different value.  
+I’d like show five type delay shown by different color, so I put a legend for it.  
+2. To make a reader understand easily the monthly tendency of flight delay for the airport where he/she is interested in, I put a select box to choice it.  
+Final. To make a legend larger and modify labels with removing under bar, we can read it easily. And I add my insights as a title of this visualization.  
 
 ## Feedback  
 1. A feedback by Reader1 of Design.1 is the following:  
