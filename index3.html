@@ -53,7 +53,7 @@
           
           d3.select('body')
             .append('h2')
-            .text("A lot of Flight Delay in summer season. September has the most on-time flights.");
+            .text("Monthly Average Flight Delay");
 
           var svg = d3.select("body")
             .append('p')
@@ -68,63 +68,9 @@
           */
           myChart = new dimple.chart(svg, ad_array);
           var x = myChart.addCategoryAxis("x", "month");
-          var y = myChart.addMeasureAxis("y", "arrival_delay");
-          y.title = "Arrival Delay"
-          var mySeries = myChart.addSeries("delay_type", dimple.plot.bar);
-
-          /* Customize legend */
-          var myLegend = myChart.addLegend(80, 10, 900, 20, "right");
-          myLegend.fontSize = "14";
-          myLegend._getEntries = function() {
-                    var orderedValues = ["late_aircraft_delay",
-                                          "carrier_delay",
-                                          "nas_delay",
-                                          "weather_delay",
-                                          "security_delay"];
-                    var newNames = {
-                        "late_aircraft_delay" : "Late AirCraft Delay",
-                        "carrier_delay" : "Carrier Delay",
-                        "nas_delay" : "Nas Delay",
-                        "weather_delay" : "Weather Delay",
-                        "security_delay" : "Security Delay"
-                    };
-                    var entries = [];
-                    orderedValues.forEach(function(v) {
-                        entries.push({
-                            key : newNames[v],
-                            fill : myChart.getColor(v).fill,
-                            stroke : myChart.getColor(v).stroke,
-                            opacity : myChart.getColor(v).opacity,
-                            series : [mySeries],
-                            aggField : [v]
-                        });
-                    }, this);
-                    return entries;
-                };
-                
-          /* Customize tooltip */
-          mySeries.getTooltipText = function (e) {
-            //debugger;
-            var sel_key;
-            if(e.key.startsWith("weather_delay")) {
-              sel_key = "Weather Delay";
-            }else if(e.key.startsWith("security_delay")) {
-              sel_key = "Security Delay";
-            }else if(e.key.startsWith("nas_delay")) {
-              sel_key = "Nas Delay";
-            }else if(e.key.startsWith("carrier_delay")) {
-              sel_key = "Carrier Delay";
-            }else if(e.key.startsWith("late_aircraft_delay")) {
-              sel_key = "Late AirCraft Delay";
-            }else {
-              sel_key = "nothing";
-            }
-            return [
-                sel_key,
-                e.yValue
-              ];
-          };
-
+          myChart.addMeasureAxis("y", "arrival_delay");
+          myChart.addSeries("delay_type", dimple.plot.bar);
+          myChart.addLegend(80, 10, 750, 20, "right");
           myChart.draw();
           
         };
